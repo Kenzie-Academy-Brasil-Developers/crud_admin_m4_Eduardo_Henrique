@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { createUsers, deleteUser, listUsers, loginUser, reactiveUser, updateUser, userProfile } from "../controllers/users.controllers";
+import { ensureEmailExists } from "../middlewares/ensureEmailExists";
 
 export const userRoutes: Router = Router()
 
-userRoutes.post('',createUsers)
+userRoutes.post('', ensureEmailExists, createUsers)
 
 // userRoutes.post('/:id',loginUser)
 

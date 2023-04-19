@@ -43,7 +43,7 @@ export const updateUser = async (
 ): Promise<Response> => {
   const userUpdated = await updateUserService(
     request.body,
-    Number(request.params)
+    Number(request.params.id)
   );
   return response.status(200).json(userUpdated);
 };
@@ -52,7 +52,7 @@ export const deleteUser = async (
   request: Request,
   response: Response
 ): Promise<Response> => {
-  const deleteUser = deleteUserService(Number(request.params))
+  deleteUserService(Number(request.params.id))
 
   return response.status(204).json();
 };

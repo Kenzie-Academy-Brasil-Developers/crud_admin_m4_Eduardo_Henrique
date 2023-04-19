@@ -8,7 +8,7 @@ export const ensureEmailExists = async (
   request: Request,
   response: Response,
   next: NextFunction
-) => {
+): Promise<Response | void> => {
   const emailUser: IUserRequest = request.body.email;
 
   const queryString: string = `

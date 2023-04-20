@@ -16,6 +16,7 @@ export const listUserService = async (): Promise<Array<IUserResponse>> => {
   const userList = queryResult.rows;
 
   const parsedUserList = await z.array(responseUserSchema).parseAsync(userList);
+  
 
   return parsedUserList;
 };

@@ -1,17 +1,19 @@
 import { Request, Response } from "express";
 import { createUserService } from "../services/createUser.services";
-import { IUser, IUserRequest } from "../interfaces/user.interface";
+import { IUserRequest, IUserUpdate } from "../interfaces/user.interface";
 import { listUserService } from "../services/listUsers.services";
 import { updateUserService } from "../services/updateUser.services";
 import { number } from "zod";
 import { deleteUserService } from "../services/deleteUserServices";
+import { updateUserSchema } from "../schemas/users.schemas";
+import { createLoginService } from "../services/createLogin.Service";
 
 export const createUsers = async (
   request: Request,
   response: Response
 ): Promise<Response> => {
-  const userData: IUserRequest = request.body;
-  const user = await createUserService(userData);
+  const userDataBody:IUserRequest = request.body ;
+  const user = await createUserService(userDataBody);
   return response.status(201).json(user);
 };
 
@@ -19,7 +21,9 @@ export const loginUser = async (
   request: Request,
   response: Response
 ): Promise<Response> => {
-  return response.status(200).json();
+  const userDataBody:IUserRequest = request.body
+  const token = await createLoginService(userDataBody)
+  return response.status(200).json(token);
 };
 
 export const listUsers = async (
@@ -41,10 +45,11 @@ export const updateUser = async (
   request: Request,
   response: Response
 ): Promise<Response> => {
-  const userUpdated = await updateUserService(
-    request.body,
-    Number(request.params.id)
-  );
+  const userDataBody:IUserUpdate = request.body ;
+  
+  const userParamsId = Number(request.params.id);
+
+  const userUpdated = await updateUserService(userDataBody, userParamsId);
   return response.status(200).json(userUpdated);
 };
 
@@ -52,7 +57,7 @@ export const deleteUser = async (
   request: Request,
   response: Response
 ): Promise<Response> => {
-  deleteUserService(Number(request.params.id))
+  deleteUserService(Number(request.params.id));
 
   return response.status(204).json();
 };

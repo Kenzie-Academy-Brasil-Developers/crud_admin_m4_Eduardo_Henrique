@@ -1,23 +1,27 @@
-import format from "pg-format";
-import { IUser, IUserRequest } from "../interfaces/user.interface";
-import { QueryResult } from "pg";
+import {  IUserRequest, IUserResponse } from "../interfaces/user.interface";
+import { QueryConfig, QueryResult } from "pg";
 import { client } from "../database";
+import { responseUserSchema } from "../schemas/users.schemas";
 
 export const reactiveUserService = async (
   userData: IUserRequest,
   dataParamsId: number
-): Promise<IUser> => {
-  const queryString = format(
-    `
+): Promise<IUserResponse> => {
+  const queryString = `
       UPDATE
           users
       SET
-         (%I) = (%L)
-      RETURNING *
-    `,
-    Object.keys(userData),
-    Object.values(userData)
-  );
-  const queryResult: QueryResult<IUser> = await client.query(queryString);
-  return queryResult.rows[0];
+         active = true
+      WHERE
+          id = $1
+    `;
+  const queryConfig: QueryConfig = {
+    text: queryString,
+    values: [dataParamsId],
+  };
+
+  const queryResult: QueryResult<IUserResponse> = await client.query(queryConfig);
+
+  const userActive = queryResult.rows[0];
+  return responseUserSchema.parse(userActive);
 };

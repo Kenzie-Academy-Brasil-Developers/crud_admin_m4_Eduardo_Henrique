@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { QueryConfig, QueryResult } from "pg";
-import { IUser, IUserRequest } from "../interfaces/user.interface";
+import { IUserRequest, IUserResponse } from "../interfaces/user.interface";
 import { client } from "../database";
 import { AppError } from "../error";
 
@@ -23,7 +23,7 @@ export const ensureEmailExists = async (
     text: queryString,
     values: [emailUser],
   };
-  const queryResult: QueryResult<IUser> = await client.query(queryConfig);
+  const queryResult: QueryResult<IUserResponse> = await client.query(queryConfig);
 
   if (queryResult.rowCount !== 0) {
     throw new AppError("Email already exists", 409);

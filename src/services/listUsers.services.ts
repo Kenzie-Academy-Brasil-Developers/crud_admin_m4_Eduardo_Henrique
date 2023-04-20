@@ -1,16 +1,21 @@
-import { IUser } from "../interfaces/user.interface";
+import {  IUserResponse } from "../interfaces/user.interface";
 import { client } from "../database";
 import { QueryResult } from "pg";
+import { responseUserSchema } from "../schemas/users.schemas";
+import { z } from "zod";
 
-export const listUserService = async (): Promise<IUser[]> => {
-  const queryString:string = `
+export const listUserService = async (): Promise<Array<IUserResponse>> => {
+  const queryString: string = `
       SELECT 
           *
       FROM 
-          users
-      WHERE 
-          "active" = true;
-      `
-  const queryResult:QueryResult<IUser> = await client.query(queryString)
-  return queryResult.rows
-}
+          users;
+      `;
+  const queryResult: QueryResult<IUserResponse> = await client.query(queryString);
+
+  const userList = queryResult.rows;
+
+  const parsedUserList = await z.array(responseUserSchema).parseAsync(userList);
+
+  return parsedUserList;
+};

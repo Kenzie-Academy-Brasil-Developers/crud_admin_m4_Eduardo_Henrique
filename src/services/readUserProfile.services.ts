@@ -24,6 +24,6 @@ export const readUserProfile = async (
 
   const user = queryResult.rows[0];
 
-  console.log(user);
+
   return responseUserSchema.parse(user);
 };

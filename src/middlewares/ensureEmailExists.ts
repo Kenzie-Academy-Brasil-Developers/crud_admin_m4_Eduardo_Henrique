@@ -26,7 +26,7 @@ export const ensureEmailExists = async (
   const queryResult: QueryResult<IUserResponse> = await client.query(queryConfig);
 
   if (queryResult.rowCount !== 0) {
-    throw new AppError("Email already exists", 409);
+    throw new AppError("E-mail already registered", 409);
   }
   return next();
 };

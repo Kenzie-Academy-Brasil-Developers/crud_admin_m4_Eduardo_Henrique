@@ -12,6 +12,7 @@ import { ensureUserExists } from "../middlewares/ensureUserExists";
 import { ensureBodyIsValid, token } from "../middlewares/ensureValidate";
 import { requestUserSchema, updateUserSchema } from "../schemas/users.schemas";
 import { ensureAdminIsTrue } from "../middlewares/ensureAdminIsTrue";
+import { checkPermission } from "../middlewares/ensurePermission";
 
 export const userRoutes: Router = Router();
 
@@ -28,7 +29,9 @@ userRoutes.get("/profile", token, userProfile);
 
 userRoutes.patch(
   "/:id",
+  token,
   ensureUserExists,
+  checkPermission,
   ensureBodyIsValid(updateUserSchema),
   ensureEmailExists,
   updateUser
@@ -36,8 +39,10 @@ userRoutes.patch(
 
 userRoutes.put(
   "/:id/recover",
-  /**ensureBodyIsValid(),**/ ensureUserExists,
+  ensureBodyIsValid(updateUserSchema), 
+  token,
+  checkPermission,
   reactiveUser
 );
 
-userRoutes.delete("/:id", ensureUserExists, deleteUser);
+userRoutes.delete("/:id", token, ensureUserExists, checkPermission, deleteUser);

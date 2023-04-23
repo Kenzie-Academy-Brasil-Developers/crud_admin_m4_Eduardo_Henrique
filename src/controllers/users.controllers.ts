@@ -23,7 +23,7 @@ export const loginUser = async (
   response: Response
 ): Promise<Response> => {
   const userDataBody: IUserRequest = request.body;
-  const token: string | undefined = await createLoginService(userDataBody);
+  const token = await createLoginService(userDataBody);
   return response.status(200).json(token);
 };
 
@@ -32,8 +32,6 @@ export const listUsers = async (
   response: Response
 ): Promise<Response> => {
   const allUsers = await listUserService();
-  console.log(response.locals.idUser);
-  console.log(response.locals.isAdmin);
   return response.status(200).json(allUsers);
 };
 
@@ -62,8 +60,9 @@ export const deleteUser = async (
   request: Request,
   response: Response
 ): Promise<Response> => {
-  deleteUserService(Number(request.params.id));
+  const idToDelete = Number(request.params.id);
 
+  await deleteUserService(idToDelete);
   return response.status(204).json();
 };
 

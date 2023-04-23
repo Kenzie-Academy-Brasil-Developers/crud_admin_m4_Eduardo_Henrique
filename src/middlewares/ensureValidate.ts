@@ -19,18 +19,19 @@ export const token = (
 ) => {
   const authorization: string | undefined = request.headers.authorization;
   if (!authorization) {
-    throw new AppError("Missing bearer token", 401);
+    throw new AppError("Missing Bearer Token", 401);
   }
 
   const [ _bearer, token] = authorization.split(" ")
 
-  console.log(_bearer,token)
    verify(token,String(process.env.SECRET_KEY),(error:any,decoded:any)=>{
     if(error){
       throw new AppError(error.message,401)
     }
     response.locals.idUser = decoded.id
     response.locals.isAdmin = decoded.isAdmin
+    response.locals.active = decoded.active
+    response.locals.email = decoded.email
   })
       
   return next()

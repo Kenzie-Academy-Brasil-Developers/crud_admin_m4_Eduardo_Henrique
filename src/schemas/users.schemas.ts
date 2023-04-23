@@ -11,6 +11,8 @@ export const userSchema = z.object({
 
 export const requestUserSchema = userSchema.omit({ id: true, active: true });
 
+export const requestLoginUserSchema = userSchema.omit({ id: true,name:true, admin: true, active: true });
+
 export const responseUserSchema = userSchema.omit({ password: true });
 
 export const updateUserSchema = requestUserSchema

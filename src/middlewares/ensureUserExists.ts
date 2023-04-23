@@ -11,8 +11,6 @@ export const ensureUserExists = async (
 ): Promise<Response | void> => {
   const idUserParams = Number(request.params.id);
 
-  console.log(request.route.path, request.method);
-
   let queryString: string = `
       SELECT 
           *
@@ -30,7 +28,6 @@ export const ensureUserExists = async (
   };
 
   const queryResult: QueryResult<IUserResponse> = await client.query(queryConfig);
-  console.log(queryResult.rows)
   if (queryResult.rowCount === 0) {
     throw new AppError("User not found", 404);
   }

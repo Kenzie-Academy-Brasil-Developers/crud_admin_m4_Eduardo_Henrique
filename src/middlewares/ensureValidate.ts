@@ -11,6 +11,7 @@ export const ensureBodyIsValid =
     request.body = validateBody;
     return next();
   };
+  
 
 export const token = (
   request: Request,
@@ -21,10 +22,9 @@ export const token = (
   if (!authorization) {
     throw new AppError("Missing Bearer Token", 401);
   }
-
   const [ _bearer, token] = authorization.split(" ")
-
-   verify(token,String(process.env.SECRET_KEY),(error:any,decoded:any)=>{
+  
+  verify(token,String(process.env.SECRET_KEY),(error:any,decoded:any)=>{
     if(error){
       throw new AppError(error.message,401)
     }
@@ -33,6 +33,7 @@ export const token = (
     response.locals.active = decoded.active
     response.locals.email = decoded.email
   })
-      
+  
+  
   return next()
 };

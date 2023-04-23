@@ -5,12 +5,12 @@ import { client } from "../database";
 import { responseUserSchema } from "../schemas/users.schemas";
 import { AppError } from "../error";
 
-export const ensureUserActive = async (
+export const ensureUserAlreadyActive = async (
   request: Request,
   response: Response,
   next: NextFunction
 ) => {
-  const userEmail: string | undefined = request.body.email;
+  const idUser: number = Number(request.params.id);
 
   const queryString: string = `
       SELECT 
@@ -18,18 +18,18 @@ export const ensureUserActive = async (
       FROM
           users
       WHERE
-          email = $1`;
+          id = $1`;
   const queryConfig: QueryConfig = {
     text: queryString,
-    values: [userEmail],
+    values: [idUser],
   };
   const queryResult: QueryResult<IUserResponse> = await client.query(
     queryConfig
   );
-
   const user = responseUserSchema.parse(queryResult.rows[0]);
   if (user.active) {
-    return next();
+    throw new AppError("User already active", 409);
   }
-  throw new AppError("User not found", 404);
+  return next();
+  
 };

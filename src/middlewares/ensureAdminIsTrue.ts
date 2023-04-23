@@ -1,4 +1,4 @@
-import { Request,Response,NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import { AppError } from "../error";
 
 export const ensureAdminIsTrue = async (
@@ -6,9 +6,10 @@ export const ensureAdminIsTrue = async (
   response: Response,
   next: NextFunction
 ): Promise<Response | void> => {
-  const { isAdmin } = response.locals
-  if(!isAdmin){
-    throw new AppError("Insufficient Permission",403)
+  const { isAdmin } = response.locals;
+  
+  if (!isAdmin) {
+    throw new AppError("Insufficient Permission", 403);
   }
-  return next()
-}
+  return next();
+};

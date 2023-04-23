@@ -15,6 +15,4 @@ export const requestLoginUserSchema = userSchema.omit({ id: true,name:true, admi
 
 export const responseUserSchema = userSchema.omit({ password: true });
 
-export const updateUserSchema = requestUserSchema
-  .omit({ admin: true, active: true, password: true })
-  .partial();
+export const updateUserSchema = requestUserSchema.omit({ admin: true, active: true, password: true }).partial();

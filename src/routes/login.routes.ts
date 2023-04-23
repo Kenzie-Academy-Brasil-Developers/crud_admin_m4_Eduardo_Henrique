@@ -7,10 +7,4 @@ import { ensureComparePassword } from "../middlewares/ensureComparePassword";
 
 export const loginRoutes: Router = Router();
 
-loginRoutes.post(
-  "",
-  ensureBodyIsValid(requestLoginUserSchema),
-  ensureComparePassword,
-  ensureUserActive,
-  loginUser 
-);
+loginRoutes.post("", ensureBodyIsValid(requestLoginUserSchema),ensureComparePassword,ensureUserActive,loginUser);

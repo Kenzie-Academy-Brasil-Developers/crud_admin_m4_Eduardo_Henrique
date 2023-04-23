@@ -10,7 +10,6 @@ export const checkPermission = async (
   const isAdmin = response.locals.isAdmin;
   const idUser = response.locals.idUser;
   const requestedUserId = Number(request.params.id);
-  console.log(idUser)
   if (isAdmin) {
     return next();
   } 

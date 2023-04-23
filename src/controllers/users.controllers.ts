@@ -22,8 +22,9 @@ export const loginUser = async (
   request: Request,
   response: Response
 ): Promise<Response> => {
-  const userDataBody: IUserRequest = request.body;
-  const token = await createLoginService(userDataBody);
+  const userLocals = response.locals.userLocals
+  console.log("logo abaixo e o usuario do locals",response.locals.userLocals)
+  const token = await createLoginService(userLocals);
   return response.status(200).json(token);
 };
 

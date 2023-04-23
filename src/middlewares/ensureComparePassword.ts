@@ -11,7 +11,7 @@ export const ensureComparePassword = async (
   response: Response,
   next: NextFunction
 ) => {
-  const userData = request.body
+  const userData = request.body;
   const queryString = `
       SELECT
           *
@@ -38,7 +38,7 @@ export const ensureComparePassword = async (
   if (!passwordMatch) {
     throw new AppError("Wrong email/password", 401);
   }
-  response.locals.userLocals = responseUserSchema.parse(user)
-  
-  return next()
+  response.locals.userLocals = responseUserSchema.parse(user);
+
+  return next();
 };

@@ -31,5 +31,4 @@ export const ensureUserAlreadyActive = async (
     throw new AppError("User already active", 409);
   }
   return next();
-  
 };

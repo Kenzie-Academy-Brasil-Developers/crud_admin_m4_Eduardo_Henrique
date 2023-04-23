@@ -7,7 +7,7 @@ export const ensureAdminIsTrue = async (
   next: NextFunction
 ): Promise<Response | void> => {
   const { isAdmin } = response.locals
-
+  console.log(isAdmin)
   if(!isAdmin){
     throw new AppError("Insufficient Permission",403)
   }

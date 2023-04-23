@@ -8,6 +8,7 @@ import { deleteUserService } from "../services/deleteUserServices";
 import { updateUserSchema } from "../schemas/users.schemas";
 import { createLoginService } from "../services/createLogin.Service";
 import { readUserProfile } from "../services/readUserProfile.services";
+import { activeUserService } from "../services/activeUser.service";
 
 export const createUsers = async (
   request: Request,
@@ -22,8 +23,7 @@ export const loginUser = async (
   request: Request,
   response: Response
 ): Promise<Response> => {
-  const userLocals = response.locals.userLocals
-  console.log("logo abaixo e o usuario do locals",response.locals.userLocals)
+  const userLocals = response.locals.userLocals;
   const token = await createLoginService(userLocals);
   return response.status(200).json(token);
 };
@@ -71,5 +71,7 @@ export const reactiveUser = async (
   request: Request,
   response: Response
 ): Promise<Response> => {
+  const idUser = Number(request.params.id);
+  await activeUserService(idUser);
   return response.status(200).json();
 };

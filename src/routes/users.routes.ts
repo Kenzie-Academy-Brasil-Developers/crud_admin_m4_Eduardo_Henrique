@@ -13,6 +13,7 @@ import { ensureBodyIsValid, token } from "../middlewares/ensureValidate";
 import { requestUserSchema, updateUserSchema } from "../schemas/users.schemas";
 import { ensureAdminIsTrue } from "../middlewares/ensureAdminIsTrue";
 import { checkPermission } from "../middlewares/ensurePermission";
+import { ensureUserAlreadyActive } from "../middlewares/ensureUserAlreadyActive";
 
 export const userRoutes: Router = Router();
 
@@ -41,7 +42,8 @@ userRoutes.put(
   "/:id/recover",
   ensureBodyIsValid(updateUserSchema), 
   token,
-  checkPermission,
+  ensureAdminIsTrue,
+  ensureUserAlreadyActive,
   reactiveUser
 );
 

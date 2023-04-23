@@ -31,5 +31,5 @@ export const ensureUserActive = async (
 
     return next();
   }
-  throw new AppError("teste",401)
+  throw new AppError("User not found",404)
 };

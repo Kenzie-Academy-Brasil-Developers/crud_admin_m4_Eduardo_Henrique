@@ -1,15 +1,9 @@
-import { compare } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import "dotenv/config";
-import { QueryConfig, QueryResult } from "pg";
-import { IUserRequest, IUser, IUserResponse } from "../interfaces/user.interface";
-import { client } from "../database";
-import { AppError } from "../error";
+import { IUserResponse } from "../interfaces/user.interface";
 export const createLoginService = async (user: IUserResponse) => {
-
-  
   const token: string | undefined = sign(
-    { id: user.id,email:user.email ,isAdmin: user.admin,active: user.active },
+    { isAdmin: user.admin, },
     String(process.env.SECRET_KEY),
     {
       expiresIn: process.env.EXPIRES_IN,

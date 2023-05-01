@@ -23,6 +23,7 @@ export const loginUser = async (
 ): Promise<Response> => {
   const userLocals = response.locals.userLocals;
   const token = await createLoginService(userLocals);
+
   return response.status(200).json(token);
 };
 
@@ -70,6 +71,7 @@ export const reactiveUser = async (
   response: Response
 ): Promise<Response> => {
   const idUser = Number(request.params.id);
-  await activeUserService(idUser);
-  return response.status(200).json();
+
+  const reactiveUser = await activeUserService(idUser);
+  return response.status(200).json(reactiveUser);
 };

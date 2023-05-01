@@ -24,10 +24,10 @@ export const ensureComparePassword = async (
     values: [userData.email],
   };
   const queryResult: QueryResult<IUser> = await client.query(queryConfig);
+ 
   if (queryResult.rows.length === 0) {
     throw new AppError("Wrong email/password", 401);
   }
-
   const user: IUser = queryResult.rows[0];
 
   const passwordMatch: boolean = await compare(

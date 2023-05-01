@@ -1,5 +1,5 @@
 import format from "pg-format";
-import { IUserRequest, IUserResponse, IUserUpdate } from "../interfaces/user.interface";
+import { IUserResponse, IUserUpdate } from "../interfaces/user.interface";
 import { QueryConfig, QueryResult } from "pg";
 import { client } from "../database";
 import { responseUserSchema } from "../schemas/users.schemas";

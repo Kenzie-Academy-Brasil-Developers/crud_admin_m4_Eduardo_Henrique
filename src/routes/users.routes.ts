@@ -2,11 +2,13 @@ import { Router } from "express";
 import {createUsers, deleteUser, listUsers, reactiveUser, updateUser, userProfile,} from "../controllers/users.controllers";
 import { ensureEmailExists } from "../middlewares/ensureEmailExists";
 import { ensureUserExists } from "../middlewares/ensureUserExists";
-import { ensureBodyIsValid, token } from "../middlewares/ensureValidate";
+import { ensureBodyIsValid } from "../middlewares/ensureValidate";
 import { requestUserSchema, updateUserSchema } from "../schemas/users.schemas";
 import { ensureAdminIsTrue } from "../middlewares/ensureAdminIsTrue";
 import { checkPermission } from "../middlewares/ensurePermission";
 import { ensureUserAlreadyActive } from "../middlewares/ensureUserAlreadyActive";
+import { ensureToken } from "../middlewares/ensureToken";
+import { ensureIdExists } from "../middlewares/ensureIdExists";
 
 export const userRoutes: Router = Router();
 
@@ -17,12 +19,12 @@ userRoutes.post(
   createUsers
 );
 
-userRoutes.get("", token, ensureAdminIsTrue, listUsers);
+userRoutes.get("", ensureToken, ensureAdminIsTrue, listUsers);
 
-userRoutes.get("/profile", token, userProfile);
+userRoutes.get("/profile", ensureToken, userProfile);
 
-userRoutes.patch("/:id",token,ensureUserExists,checkPermission, ensureBodyIsValid(updateUserSchema), ensureEmailExists, updateUser);
+userRoutes.patch("/:id", ensureIdExists, ensureToken, checkPermission,ensureBodyIsValid(updateUserSchema), ensureEmailExists, updateUser);
 
-userRoutes.put("/:id/recover", ensureBodyIsValid(updateUserSchema), token, ensureAdminIsTrue, ensureUserAlreadyActive, reactiveUser);
+userRoutes.put("/:id/recover", ensureBodyIsValid(updateUserSchema), ensureToken, ensureAdminIsTrue, ensureUserAlreadyActive, reactiveUser);
 
-userRoutes.delete("/:id", token, ensureUserExists, checkPermission, deleteUser);
+userRoutes.delete("/:id", ensureToken, ensureIdExists, checkPermission, deleteUser);

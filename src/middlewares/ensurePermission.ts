@@ -6,17 +6,16 @@ export const checkPermission = async (
   response: Response,
   next: NextFunction
 ): Promise<void> => {
-  const isAdmin = response.locals.isAdmin;
-
-  const idUser = response.locals.idUser;
-
-  const requestedUserId = Number(request.params.id);
-
+  const isAdmin: boolean = response.locals.isAdmin;
+  const idUser: number = Number(response.locals.idUser);
+  const requestedUserId: number = Number(request.params.id);
+  
   if (isAdmin) {
     return next();
   }
   if (idUser === requestedUserId) {
     return next();
-  }
-  throw new AppError("Insufficient Permission", 403);
+  } 
+    throw new AppError("Insufficient Permission", 403);
+  
 };

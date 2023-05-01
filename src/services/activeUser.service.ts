@@ -21,7 +21,6 @@ export const activeUserService = async (
     text: queryString,
     values: [userParamsId],
   };
-
   const queryResult: QueryResult<IUserResponse> = await client.query(queryConfig);
   const userActive: IUserResponse = queryResult.rows[0]; 
   return responseUserSchema.parse(userActive) 

@@ -2,23 +2,23 @@ import { NextFunction, Request, Response } from "express";
 import { QueryConfig, QueryResult } from "pg";
 import { IUserResponse } from "../interfaces/user.interface";
 import { client } from "../database";
-import { responseUserSchema } from "../schemas/users.schemas";
 import { AppError } from "../error";
 
-export const ensureUserAlreadyActive = async (
+export const ensureIdExists = async (
   request: Request,
   response: Response,
   next: NextFunction
 ) => {
-  const idUser: number = Number(request.params.id);
+  const idUser = request.params.id;
 
   const queryString: string = `
       SELECT 
           *
-      FROM
+      FROM 
           users
-      WHERE
-          id = $1`;
+      WHERE 
+          id = $1;
+      `;
   const queryConfig: QueryConfig = {
     text: queryString,
     values: [idUser],
@@ -26,9 +26,8 @@ export const ensureUserAlreadyActive = async (
   const queryResult: QueryResult<IUserResponse> = await client.query(
     queryConfig
   );
-  const user = responseUserSchema.parse(queryResult.rows[0]);
-  if (user.active) {
-    throw new AppError("User already active", 400);
+  if (queryResult.rowCount === 0) {
+    throw new AppError("User not found", 404);
   }
   return next();
 };

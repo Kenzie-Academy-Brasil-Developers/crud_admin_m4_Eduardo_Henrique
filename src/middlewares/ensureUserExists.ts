@@ -26,11 +26,10 @@ export const ensureUserExists = async (
     text: queryString,
     values: [idUserParams],
   };
-
   const queryResult: QueryResult<IUserResponse> = await client.query(
     queryConfig
-  );
-  if (queryResult.rowCount === 0) {
+    );
+  if (queryResult.rows[0] == undefined) {
     throw new AppError("User not found", 404);
   }
 

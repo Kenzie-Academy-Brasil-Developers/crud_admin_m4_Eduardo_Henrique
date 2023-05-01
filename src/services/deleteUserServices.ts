@@ -7,7 +7,7 @@ export const deleteUserService = async (dataParams: number): Promise<IUserRespon
       UPDATE
           users 
       SET 
-          active = FALSE
+          active = false
       WHERE id = $1;
 
   `;

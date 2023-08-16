@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { QueryConfig, QueryResult } from "pg";
 import { IUserResponse } from "../interfaces/user.interface";
 import { client } from "../database";
-import { responseUserSchema } from "../schemas/users.schemas";
+import { responseUserSchema } from "../schemas/users.schema";
 import { AppError } from "../error";
 
 export const ensureUserActive = async (

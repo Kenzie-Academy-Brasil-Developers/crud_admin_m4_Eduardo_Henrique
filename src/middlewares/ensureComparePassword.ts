@@ -4,7 +4,7 @@ import { QueryConfig, QueryResult } from "pg";
 import { client } from "../database";
 import { AppError } from "../error";
 import { IUser } from "../interfaces/user.interface";
-import { responseUserSchema } from "../schemas/users.schemas";
+import { responseUserSchema } from "../schemas/users.schema";
 
 export const ensureComparePassword = async (
   request: Request,
@@ -15,7 +15,7 @@ export const ensureComparePassword = async (
   const queryString = `
       SELECT
           *
-      FROM
+      FROM 
           users
       WHERE
           email = $1;`;
@@ -24,7 +24,7 @@ export const ensureComparePassword = async (
     values: [userData.email],
   };
   const queryResult: QueryResult<IUser> = await client.query(queryConfig);
- 
+
   if (queryResult.rows.length === 0) {
     throw new AppError("Wrong email/password", 401);
   }

@@ -1,7 +1,7 @@
-import {  IUserRequest, IUserResponse } from "../interfaces/user.interface";
+import { IUserRequest, IUserResponse } from "../interfaces/user.interface";
 import { QueryConfig, QueryResult } from "pg";
 import { client } from "../database";
-import { responseUserSchema } from "../schemas/users.schemas";
+import { responseUserSchema } from "../schemas/users.schema";
 
 export const reactiveUserService = async (
   userData: IUserRequest,
@@ -20,7 +20,9 @@ export const reactiveUserService = async (
     values: [dataParamsId],
   };
 
-  const queryResult: QueryResult<IUserResponse> = await client.query(queryConfig);
+  const queryResult: QueryResult<IUserResponse> = await client.query(
+    queryConfig
+  );
 
   const userActive = queryResult.rows[0];
   return responseUserSchema.parse(userActive);

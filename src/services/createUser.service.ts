@@ -2,14 +2,15 @@ import format from "pg-format";
 import { IUserRequest, IUserResponse } from "../interfaces/user.interface";
 import { QueryResult } from "pg";
 import { client } from "../database";
-import { responseUserSchema } from "../schemas/users.schemas";
+import { responseUserSchema } from "../schemas/users.schema";
 import { hash } from "bcryptjs";
 
 export const createUserService = async (
   userData: IUserRequest
 ): Promise<IUserResponse> => {
-  userData.password =  await hash(userData.password,12)
-  const queryString: string = format(`
+  userData.password = await hash(userData.password, 12);
+  const queryString: string = format(
+    `
       INSERT INTO users 
           (%I)
       VALUES 
@@ -20,9 +21,10 @@ export const createUserService = async (
     Object.values(userData)
   );
 
-
-  const queryResult: QueryResult<IUserResponse> = await client.query(queryString);
+  const queryResult: QueryResult<IUserResponse> = await client.query(
+    queryString
+  );
 
   const userCreate = queryResult.rows[0];
-  return  responseUserSchema.parse(userCreate)
+  return responseUserSchema.parse(userCreate);
 };

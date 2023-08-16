@@ -12,8 +12,7 @@ export const checkPermission = async (
   
   if (isAdmin) {
     return next();
-  }
-  if (idUser === requestedUserId) {
+  } else if (idUser === requestedUserId) {
     return next();
   } 
     throw new AppError("Insufficient Permission", 403);

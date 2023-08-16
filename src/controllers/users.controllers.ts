@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { createUserService } from "../services/createUser.services";
+import { createUserService } from "../services/createUser.service";
 import { IUserRequest, IUserUpdate } from "../interfaces/user.interface";
-import { listUserService } from "../services/listUsers.services";
-import { updateUserService } from "../services/updateUser.services";
-import { deleteUserService } from "../services/deleteUserServices";
+import { listUserService } from "../services/listUsers.service";
+import { updateUserService } from "../services/updateUser.service";
+import { deleteUserService } from "../services/deleteUser.service";
 import { createLoginService } from "../services/createLogin.Service";
-import { readUserProfile } from "../services/readUserProfile.services";
+import { readUserProfile } from "../services/readUserProfile.service";
 import { activeUserService } from "../services/activeUser.service";
 
 export const createUsers = async (

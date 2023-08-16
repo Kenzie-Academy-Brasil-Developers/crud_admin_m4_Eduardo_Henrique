@@ -1,7 +1,7 @@
 import { QueryConfig, QueryResult } from "pg";
 import { IUserResponse } from "../interfaces/user.interface";
 import { client } from "../database";
-import { responseUserSchema } from "../schemas/users.schemas";
+import { responseUserSchema } from "../schemas/users.schema";
 
 export const readUserProfile = async (
   idUser: number
@@ -23,7 +23,6 @@ export const readUserProfile = async (
   );
 
   const user = queryResult.rows[0];
-
 
   return responseUserSchema.parse(user);
 };
